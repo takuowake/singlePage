@@ -7,6 +7,7 @@ type Kudo struct {
 	RepoID string `json:"id" bson:"repoId"`
 	RepoName string `json:"full_name" bson:"repoName"`
 	RepoURL string `json:"html_url" bson:"repoUrl"`
-	Language string `json:"description" bson:"description"`
+	Language string `json:"language" bson:"language"`
+	Description string `json:"description" bson:"description"`
 	Notes string `json:"notes" bson:"notes"`
 }

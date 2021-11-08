@@ -27,11 +27,26 @@ func (r MongoRepository) Find(repoID string)(*core.Kudo, error) {
 	defer session.Close()
 	coll := session.DB("").C(collectionName)
 
+	var kudo core.Kudo
+	err := coll.Find(bson.M{"repoId": repoID, "userId": kudo.UserID}).One(&kudo)
+	if err != nil {
+		r.logger.Printf("error: %v\n", err)
+		return nil, err
+	}
+	return &kudo, nil
+}
+
+// FindAll fetches all kudos from the database.
+func (r MongoRepository) FindAll(selector map[string]interface{})([]*core.Kudo, error) {
+	session := r.session.Copy()
+	defer session.Close()
+	coll := session.DB("").C(collectionName)
+
 	var kudos []*core.Kudo
 	err := coll.Find(selector).All(&kudos)
 	if err != nil {
 		r.logger.Printf("error: %v\n", err)
-		return nill, err
+		return nil, err
 	}
 	return kudos, nil
 }
